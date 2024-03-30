@@ -25,7 +25,11 @@ export default function App(){
     <div className="app">
       <div className="sidebar">
         <FriendsList/>
+        <FormAddFriend/>
+        <Button>Add Friend</Button>
       </div>
+
+      <FormSplitBill/>
     </div>
   )
 }
@@ -45,9 +49,64 @@ function FriendsList(){
 
 function Friend({friend}){
   return(
-    <li id={friend.id} >{friend.name}
+    <li id={friend.id} >
       <img src={friend.image} alt={friend.name}/>
-      balance:{friend.balance}
+      <h3>{friend.name}</h3>
+      {friend.balance<0 && (
+        <p className="red">You owe {friend.name} ${Math.abs(friend.balance)}</p>
+      )}
+      {friend.balance>0 && (
+        <p className="green">{friend.name} owe you ${friend.balance}</p>
+      )}
+      {friend.balance===0 && (
+        <p>You & {friend.name} are even</p>
+      )}
+
+      <Button className="button">Select</Button>
     </li>
+  )
+}
+
+function FormAddFriend(){
+  return(
+    <form className="form-add-friend">
+      <label>🧑‍🤝‍🧑Friend name</label>
+      <input type="text"/>
+      <label>📷Image URl</label>
+      <input type="text"/>
+
+      <Button className="button">Add</Button>
+    </form>
+  )
+}
+
+
+function Button({children}){
+  return <button className="button">{children}</button>
+}
+
+
+function FormSplitBill(){
+  return(
+    <form className="form-split-bill">
+      <h2>Split a bill with X</h2>
+
+      <label>💵 Bill value</label>
+      <input type="text"/>
+
+      <label>🕴️ Your expense</label>
+      <input type="text"/>
+
+      <label>🧑‍🤝‍🧑 X's expense</label>
+      <input disabled type="text"/>
+
+      <label>🤑 Who is paying the bill</label>
+      <select>
+        <option value="user">You</option>
+        <option value="friend">X</option>
+      </select>
+
+      <Button className="button">Split Bill</Button>
+    </form>
   )
 }
